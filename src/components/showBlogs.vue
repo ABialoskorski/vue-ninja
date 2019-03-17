@@ -1,12 +1,12 @@
 <template>
-  <div v-theme:column="'narrow'" id="show-blogs">
+  <div id="show-blogs">
     <h1>All Blog articles</h1>
     <input type="text" v-model="search" placeholder="search blogs">
     <div v-for="(blog,index) in filteredBlogs" v-bind:key="index" class="single-blog">
       <router-link v-bind:to="'/blog/' + blog.id">
-        <h2>{{blog.title | to-uppercase}}</h2>
+        <h2>{{blog.title}}</h2>
       </router-link>
-      <article>{{blog.body | snippets}}</article>
+      <article>{{blog.content}}</article>
     </div>
   </div>
 </template>
@@ -25,28 +25,18 @@ export default {
   methods: {},
   created() {
     this.$http
-      .get("http://jsonplaceholder.typicode.com/posts")
+      .get("https://blogs-vue-bd9f2.firebaseio.com/posts.json")
       .then(function(data) {
-        this.blogs = data.body.slice(0, 10);
+        return data.json();
+      })
+      .then(function(data) {
+        var blogsArray = [];
+        for (let key in data) {
+          data[key].id = key;
+          blogsArray.push(data[key]);
+        }
+        this.blogs = blogsArray;
       });
-  },
-  computed: {},
-  //Filters
-  filters: {
-    toUppercase(value) {
-      return value.toUpperCase();
-    }
-  },
-  directives: {
-    rainbow: {
-      bind(el, binding, vnode) {
-        el.style.color =
-          "#" +
-          Math.random()
-            .toString()
-            .slice(2, 8);
-      }
-    }
   },
   mixins: [searchMixin]
 };

@@ -61,11 +61,7 @@ export default {
   methods: {
     post: function() {
       this.$http
-        .post("http://jsonplaceholder.typicode.com/posts", {
-          title: this.blog.title,
-          body: this.blog.content,
-          userID: 1
-        })
+        .post("https://blogs-vue-bd9f2.firebaseio.com/posts.json", this.blog)
         .then(function(data) {
           this.submitted = true;
         });
@@ -98,7 +94,7 @@ textarea {
   margin: 30px 0;
 }
 h2 {
-  color: greenyellow;
+  color: green;
 }
 h3 {
   margin-top: 10px;
