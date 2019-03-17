@@ -3,7 +3,9 @@
     <h1>All Blog articles</h1>
     <input type="text" v-model="search" placeholder="search blogs">
     <div v-for="(blog,index) in filteredBlogs" v-bind:key="index" class="single-blog">
-      <h2 v-rainbow>{{blog.title | to-uppercase}}</h2>
+      <router-link v-bind:to="'/blog/' + blog.id">
+        <h2>{{blog.title | to-uppercase}}</h2>
+      </router-link>
       <article>{{blog.body | snippets}}</article>
     </div>
   </div>
@@ -60,5 +62,9 @@ export default {
   margin: 20px 0;
   box-sizing: border-box;
   background: #eee;
+}
+a {
+  color: black;
+  text-decoration: none;
 }
 </style>
